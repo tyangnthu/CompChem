@@ -1,0 +1,23 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l pmem=2gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o compchem.out
+#PBS -N compchem
+#PBS -q serial
+#PBS -P ACD111182
+
+# echo "Where is my node?"
+# ip=$(curl -s ipinfo.io)
+# ipinfo=$(echo $ip | sed 's/{//' | sed 's/}//' | sed 's/,/\n/g')
+# echo "It is in , ${ipinfo[6]}."
+cpuinfo="$(lscpu)"
+echo ""
+echo "This node has following specs:"
+echo "$(echo "${cpuinfo}" | awk 'NR==4{print $2}') CPUs."
+echo "$(echo "${cpuinfo}" | awk 'NR==6{print $4}') thread(s) per core."
+echo "CPU model is $(echo "${cpuinfo}" | awk 'NR==13{$1=$2="";print $0}')."
+
+
+
