@@ -8,18 +8,21 @@
 #PBS -q serial
 #PBS -P ACD111182
 
-cd /work1/nickyang69
-#wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
-#chmod +x Anaconda3-2022.10-Linux-x86_64.sh
-#./Anaconda3-2022.10-Linux-x86_64.sh << EOF
-#
-#yes
-#/work1/nickyang69/anaconda3
-#EOF
-. /work1/nickyang69/anaconda3/etc/profile.d/conda.sh
-#conda create -n compchem python=3.6 -y
+wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+chmod +x Anaconda3-2022.10-Linux-x86_64.sh
+./Anaconda3-2022.10-Linux-x86_64.sh << EOF
+
+yes
+
+EOF
+. ~/anaconda3/etc/profile.d/conda.sh
+conda create -n compchem python=3.6 -y
 conda activate compchem
-conda install -c anaconda jupyter pandas scipy -y
-conda install -c conda-forge numpy openbabel matplotlib -y
-conda install -c rdkit rdkit -y
+conda install jupyter -y # done
+conda install pandas -y # done
+conda install scipy -y # done
+conda install numpy -y # done
+conda install matplotlib -y # done
+conda install -c conda-forge openbabel -y # done
+conda install -c rdkit rdkit -y #d one
 pip install pyscf[all]
