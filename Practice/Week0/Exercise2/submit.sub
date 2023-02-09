@@ -8,16 +8,18 @@
 #PBS -q serial
 #PBS -P ACD111182
 
-# echo "Where is my node?"
-# ip=$(curl -s ipinfo.io)
-# ipinfo=$(echo $ip | sed 's/{//' | sed 's/}//' | sed 's/,/\n/g')
-# echo "It is in , ${ipinfo[6]}."
-cpuinfo="$(lscpu)"
-echo ""
-echo "This node has following specs:"
-echo "$(echo "${cpuinfo}" | awk 'NR==4{print $2}') CPUs."
-echo "$(echo "${cpuinfo}" | awk 'NR==6{print $4}') thread(s) per core."
-echo "CPU model is $(echo "${cpuinfo}" | awk 'NR==13{$1=$2="";print $0}')."
-
-
-
+cd /work1/nickyang69
+#wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+#chmod +x Anaconda3-2022.10-Linux-x86_64.sh
+#./Anaconda3-2022.10-Linux-x86_64.sh << EOF
+#
+#yes
+#/work1/nickyang69/anaconda3
+#EOF
+. /work1/nickyang69/anaconda3/etc/profile.d/conda.sh
+#conda create -n compchem python=3.6 -y
+conda activate compchem
+conda install -c anaconda jupyter pandas scipy -y
+conda install -c conda-forge numpy openbabel matplotlib -y
+conda install -c rdkit rdkit -y
+pip install pyscf[all]
