@@ -23,6 +23,7 @@ conda install pandas -y # done
 conda install scipy -y # done
 conda install numpy -y # done
 conda install matplotlib -y # done
+conda install plotly -y
 conda install -c conda-forge openbabel -y # done
 conda install -c rdkit rdkit -y #d one
 pip install pyscf[all]
