@@ -1,8 +1,7 @@
 !uks pbe0 cc-pvtz tightscf
+!moread 
 
-%scf
-  guess patom
-end
+%moinp "au_0_2_R-nr.gbw"
 
 *xyz 1 1
 au 0 0 0
