@@ -1,0 +1,14 @@
+!uks wb97x def2-svp tightscf
+
+%paras
+  rHH = 0.5,3.0,21
+end
+
+%scf
+  maxiter 250
+end
+
+*int 1 2
+H 0 0 0 0 0 0
+H 1 0 0 {rHH} 0 0
+*
