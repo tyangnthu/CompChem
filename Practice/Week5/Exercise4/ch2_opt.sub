@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=1
+##PBS -l walltime=24:00:00
+#PBS -m e
+#PBS -j oe
+#PBS -N ch2_opt
+#PBS -q serial
+#PBS -P ACD111182
+
+module load orca/4.2
+#export PATH=/home/nickyang69/software/orca_5_0_2_linux_x86-64_shared_openmpi411:$PATH
+#export LD_LIBRARY_PATH=/home/nickyang69/software/orca_5_0_2_linux_x86-64_shared_openmpi411:$LD_LIBRARY_PATH
+
+cd $PBS_O_WORKDIR
+for i in $(ls CH2*inp | sort -n | sed '/BS2/d' | sed '/ext/d');
+do
+  orca $i > ${i%.???}.out
+done
+
