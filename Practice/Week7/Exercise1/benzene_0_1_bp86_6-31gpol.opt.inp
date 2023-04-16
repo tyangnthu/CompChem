@@ -1,0 +1,9 @@
+!uks bp86 6-31g* tightscf opt
+!autoaux
+!normalprint
+
+%scf
+  maxiter 500
+end
+
+*xyzfile 0 1 benzene.xyz

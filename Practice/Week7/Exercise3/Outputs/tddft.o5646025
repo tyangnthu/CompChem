@@ -1,0 +1,5 @@
+[file orca_scf/scfguess.cpp, line 1873]: Cannot open GBW file: benzene_0_1_bp86_6-31gpol.eopt.gbw
+
+[file orca_tools/qcmsg.cpp, line 458]: 
+  .... aborting the run
+

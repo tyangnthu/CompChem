@@ -1,0 +1,15 @@
+!uks bp86 6-31g* tightscf opt
+!autoaux
+!normalprint
+!pal4
+
+%scf
+  maxiter 500
+end
+
+%tddft
+  nroots 10
+  iroot 6
+end
+
+*xyzfile 0 1 benzene_0_1_bp86_6-31gpol.opt.xyz

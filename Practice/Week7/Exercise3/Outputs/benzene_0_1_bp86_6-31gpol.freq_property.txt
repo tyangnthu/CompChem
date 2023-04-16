@@ -1,0 +1,84 @@
+-------------------------------------------------------------
+----------------------- !PROPERTIES! ------------------------
+-------------------------------------------------------------
+------------------------ !PROPERTY! -------------------------
+   name:        SCF_Energy
+   comment:     The SCF energy
+   geom. index: 1
+   prop. index: 1
+        SCF Energy:     -232.2356856161
+------------------------ !PROPERTY! -------------------------
+   name:        SCF_Electric_Properties
+   comment:     The SCF Calculated Electric Properties
+   geom. index: 1
+   prop. index: 1
+       Filename                          : benzene_0_1_bp86_6-31gpol.freq.scfp 
+       Do Dipole Moment Calculation      : 1 
+       Do Quadrupole Moment Calculation  : 0 
+       Do Polarizability Calculation     : 0 
+** Dipole moment part of electric properties **
+        Magnitude of dipole moment (Debye) :        0.0000369925
+        Electronic Contribution:
+                   0          1          2    
+      0       0.000009   0.000046  -0.000001
+        Nuclear Contribution:
+                   0          1          2    
+      0       0.000004  -0.000040   0.000002
+        Total Dipole moment:
+                   0          1          2    
+      0       0.000013   0.000006   0.000001
+------------------------ !PROPERTY! -------------------------
+   name:        THERMOCHEMISTRY_Energies
+   comment:     The Thermochemistry energies
+   geom. index: 1
+   prop. index: 1
+        Temperature (Kelvin)           :        298.1500000000
+        Pressure (atm)                 :          1.0000000000
+        Total Mass (AMU)               :         78.1140000000
+        Spin Degeneracy                :          1.0000000000
+        Electronic Energy (Hartree)    :       -232.2356856161
+        Translational Energy (Hartree) :          0.0014162714
+        Rotational Energy (Hartree)    :          0.0014162714
+        Vibrational Energy (Hartree)   :          0.0016947255
+        Number of frequencies          :     36      
+        Scaling Factor for frequencies :          1.0000000000
+        Vibrational frequencies        :     
+                  0          1          2          3          4          5    
+      0       0.000000   0.000000   0.000000   0.000000   0.000000   0.000000
+                  6          7          8          9         10         11    
+      0     397.977118 398.820222 600.525076 600.885329 666.212581 695.244538
+                 12         13         14         15         16         17    
+      0     829.453551 830.383399 925.033623 926.030618 967.183428 985.724216
+                 18         19         20         21         22         23    
+      0     996.428307 1040.892464 1041.824793 1152.636226 1173.469624 1173.906841
+                 24         25         26         27         28         29    
+      0     1338.150985 1357.279981 1483.144169 1483.555288 1606.471972 1607.315668
+                 30         31         32         33         34         35    
+      0     3093.763133 3102.197684 3105.152298 3118.545524 3121.249281 3130.811851
+        Zero Point Energy (Hartree)    :          0.0978479143
+        Inner Energy (Hartree)         :       -232.1333104335
+        Enthalpy (Hartree)             :       -232.1323662244
+        Electronic entropy             :          0.0000000000
+        Rotational entropy             :          0.0122096267
+        Vibrational entropy            :          0.0022846202
+        Translational entropy          :          0.0122096267
+        Entropy                        :          0.0330156687
+        Gibbs Energy (Hartree)          :       -232.1653818931
+-------------------------------------------------------------
+----------------------- !GEOMETRIES! ------------------------
+-------------------------------------------------------------
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    12        Geometry Index:    1
+    Coordinates:
+            C      1.392214163084   -0.223483136468    0.005509531649
+            C      0.509870221602   -1.315568726803   -0.008855762208
+            C     -0.877466307054   -1.097910443709   -0.013888506209
+            C     -1.382664109807    0.212515323678   -0.004507392739
+            C     -0.500318418468    1.304570351684    0.009868266787
+            C      0.887037176187    1.086919706988    0.014877866843
+            H      2.474890335440   -0.393936061290    0.009536161362
+            H      0.904024500928   -2.337891028900   -0.016203941219
+            H     -1.565462329345   -1.950406545181   -0.025216210282
+            H     -2.465351006253    0.382892646852   -0.008525657694
+            H     -0.894437584330    2.326907171054    0.017327359564
+            H      1.575013358016    1.939430742096    0.026088284146
