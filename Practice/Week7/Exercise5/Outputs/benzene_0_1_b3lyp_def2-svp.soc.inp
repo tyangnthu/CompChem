@@ -1,0 +1,14 @@
+!rks b3lyp def2-svp tightscf
+!autoaux
+!normalprint
+
+%scf
+  maxiter 500
+end
+
+%tddft
+  nroots 10
+  dosoc true
+end
+
+*xyzfile 0 1 benzene_0_1_bp86_6-31gpol.mecp.xyz
