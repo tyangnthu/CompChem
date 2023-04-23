@@ -1,0 +1,19 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=8
+##PBS -l walltime=24:00:00
+#PBS -m e
+#PBS -j oe
+#PBS -N epr
+#PBS -q cf40
+#PBS -P ACD111182
+
+module load orca/4.2
+orca_full_path=$(which orca)
+#export PATH=/home/nickyang69/software/orca_5_0_2_linux_x86-64_shared_openmpi411:$PATH
+#export LD_LIBRARY_PATH=/home/nickyang69/software/orca_5_0_2_linux_x86-64_shared_openmpi411:$LD_LIBRARY_PATH
+
+cd $PBS_O_WORKDIR
+for i in *casscf-3-5-2*epr*.inp;
+do
+  $orca_full_path $i > ${i%.???}.out
+done

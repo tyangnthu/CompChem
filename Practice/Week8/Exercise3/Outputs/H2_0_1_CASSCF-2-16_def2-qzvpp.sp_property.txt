@@ -1,0 +1,246 @@
+-------------------------------------------------------------
+----------------------- !PROPERTIES! ------------------------
+-------------------------------------------------------------
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 1
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.1034525751 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 2
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.1570127460 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 3
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.1730261700 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 4
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.1615160239 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 5
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.1318237435 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 6
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0930851633 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 7
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0544028125 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 8
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0244726889 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 9
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0078853606 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 10
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0017410134 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 11
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0002431831 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 12
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -1.0000004345 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 13
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999717425 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 14
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999678702 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 15
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999669623 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 16
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999667000 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 17
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999666210 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 18
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999665966 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 19
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999665889 
+------------------------ !PROPERTY! -------------------------
+   name:        CASSCF_Energies
+   comment:     The CASSCF energies
+   geom. index: 20
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :     -0.9999665865 
+-------------------------------------------------------------
+----------------------- !GEOMETRIES! ------------------------
+-------------------------------------------------------------
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    1
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      0.501187233627    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    2
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      0.608429869077    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    3
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      0.738619982208    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    4
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      0.896667809792    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    5
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      1.088534267261    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    6
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      1.321455769976    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    7
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      1.604217161115    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    8
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      1.947483039909    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    9
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      2.364199986550    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    10
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      2.870084854072    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    11
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      3.484217543538    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    12
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      4.229760619613    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    13
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      5.134832907438    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    14
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      6.233570019316    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    15
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      7.567411809920    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    16
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H      9.186665317543    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    17
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H     11.152402139118    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    18
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H     13.538761800225    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    19
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H     16.435747993727    0.000000000000    0.000000000000
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    2        Geometry Index:    20
+    Coordinates:
+            H      0.000000000000    0.000000000000    0.000000000000
+            H     19.952623149689    0.000000000000    0.000000000000

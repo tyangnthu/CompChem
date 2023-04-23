@@ -1,0 +1,27 @@
+!uhf def2-svp tightscf ri-somf(1x)
+!normalprint autoaux rijcosx
+!pal8
+!moread
+
+%moinp "Mo-TAEA-NH3_0_2_bp86_lanl2dz_6-31gpol.opt.uno"
+
+%scf
+  maxiter 500
+end
+
+%basis
+  newgto Mo "def2-tzvpp" end
+end
+
+%casscf
+  mult 2
+  nel 3
+  norb 2
+  nroots 2
+  rel
+    gtensor true
+    dosoc true
+  end
+end
+
+*xyzfile 0 2 Mo-TAEA-NH3_0_2_bp86_lanl2dz_6-31gpol.opt.xyz

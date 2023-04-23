@@ -1,0 +1,3130 @@
+
+                                 *****************
+                                 * O   R   C   A *
+                                 *****************
+
+           --- An Ab Initio, DFT and Semiempirical electronic structure package ---
+
+                  #######################################################
+                  #                        -***-                        #
+                  #          Department of theory and spectroscopy      #
+                  #               Directorship: Frank Neese             #
+                  #        Max Planck Institute fuer Kohlenforschung    #
+                  #                Kaiser Wilhelm Platz 1               #
+                  #                 D-45470 Muelheim/Ruhr               #
+                  #                      Germany                        #
+                  #                                                     #
+                  #                  All rights reserved                #
+                  #                        -***-                        #
+                  #######################################################
+
+
+                         Program Version 4.2.0 -  RELEASE  -
+
+
+ With contributions from (in alphabetic order):
+   Daniel Aravena         : Magnetic Suceptibility
+   Michael Atanasov       : Ab Initio Ligand Field Theory (pilot matlab implementation)
+   Alexander A. Auer      : GIAO ZORA, VPT2
+   Ute Becker             : Parallelization
+   Giovanni Bistoni       : ED, misc. LED, open-shell LED, HFLED
+   Martin Brehm           : Molecular dynamics
+   Dmytro Bykov           : SCF Hessian
+   Vijay G. Chilkuri      : MRCI spin determinant printing, contributions to CSF-ICE
+   Dipayan Datta          : RHF DLPNO-CCSD density
+   Achintya Kumar Dutta   : EOM-CC, STEOM-CC
+   Dmitry Ganyushin       : Spin-Orbit,Spin-Spin,Magnetic field MRCI
+   Miquel Garcia          : C-PCM Hessian, Gaussian charge scheme
+   Yang Guo               : DLPNO-NEVPT2, CIM, IAO-localization
+   Andreas Hansen         : Spin unrestricted coupled pair/coupled cluster methods
+   Benjamin Helmich-Paris : CASSCF linear response (MC-RPA)
+   Lee Huntington         : MR-EOM, pCC
+   Robert Izsak           : Overlap fitted RIJCOSX, COSX-SCS-MP3, EOM
+   Christian Kollmar      : KDIIS, OOCD, Brueckner-CCSD(T), CCSD density
+   Simone Kossmann        : Meta GGA functionals, TD-DFT gradient, OOMP2, MP2 Hessian
+   Martin Krupicka        : AUTO-CI
+   Lucas Lang             : DCDCAS
+   Dagmar Lenk            : GEPOL surface, SMD
+   Dimitrios Liakos       : Extrapolation schemes; Compound Job, initial MDCI parallelization
+   Dimitrios Manganas     : Further ROCIS development; embedding schemes
+   Dimitrios Pantazis     : SARC Basis sets
+   Taras Petrenko         : DFT Hessian,TD-DFT gradient, ASA, ECA, R-Raman, ABS, FL, XAS/XES, NRVS
+   Peter Pinski           : DLPNO-MP2, DLPNO-MP2 Gradient
+   Christoph Reimann      : Effective Core Potentials
+   Marius Retegan         : Local ZFS, SOC
+   Christoph Riplinger    : Optimizer, TS searches, QM/MM, DLPNO-CCSD(T), (RO)-DLPNO pert. Triples
+   Tobias Risthaus        : Range-separated hybrids, TD-DFT gradient, RPA, STAB
+   Michael Roemelt        : Original ROCIS implementation
+   Masaaki Saitow         : Open-shell DLPNO-CCSD energy and density
+   Barbara Sandhoefer     : DKH picture change effects
+   Avijit Sen             : IP-ROCIS
+   Kantharuban Sivalingam : CASSCF convergence, NEVPT2, FIC-MRCI
+   Bernardo de Souza      : ESD, SOC TD-DFT
+   Georgi Stoychev        : AutoAux, RI-MP2 NMR
+   Willem Van den Heuvel  : Paramagnetic NMR
+   Boris Wezisla          : Elementary symmetry handling
+   Frank Wennmohs         : Technical directorship
+
+
+ We gratefully acknowledge several colleagues who have allowed us to
+ interface, adapt or use parts of their codes:
+   Stefan Grimme, W. Hujo, H. Kruse,             : VdW corrections, initial TS optimization,
+                  C. Bannwarth                     DFT functionals, gCP, sTDA/sTD-DF
+   Ed Valeev, F. Pavosevic, A. Kumar             : LibInt (2-el integral package), F12 methods
+   Garnet Chan, S. Sharma, J. Yang, R. Olivares  : DMRG
+   Ulf Ekstrom                                   : XCFun DFT Library
+   Mihaly Kallay                                 : mrcc  (arbitrary order and MRCC methods)
+   Andreas Klamt, Michael Diedenhofen            : otool_cosmo (COSMO solvation model)
+   Jiri Pittner, Ondrej Demel                    : Mk-CCSD
+   Frank Weinhold                                : gennbo (NPA and NBO analysis)
+   Christopher J. Cramer and Donald G. Truhlar   : smd solvation model
+   Lars Goerigk                                  : TD-DFT with DH, B97 family of functionals
+   V. Asgeirsson, H. Jonsson                     : NEB implementation
+   FAccTs GmbH                                   : IRC, NEB, NEB-TS, Multilevel, MM, QM/MM, CI optimization
+   S Lehtola, MJT Oliveira, MAL Marques          : LibXC Library
+
+
+ Your calculation uses the libint2 library for the computation of 2-el integrals
+ For citations please refer to: http://libint.valeyev.net
+
+ Your ORCA version has been built with support for libXC version: 4.2.3
+ For citations please refer to: https://tddft.org/programs/libxc/
+
+ This ORCA versions uses:
+   CBLAS   interface :  Fast vector & matrix operations
+   LAPACKE interface :  Fast linear algebra routines
+   SCALAPACK package :  Parallel linear algebra routines
+
+
+----- Orbital basis set information -----
+Your calculation utilizes the basis: def2-SVP
+   F. Weigend and R. Ahlrichs, Phys. Chem. Chem. Phys. 7, 3297 (2005).
+
+================================================================================
+                                        WARNINGS
+                       Please study these warnings very carefully!
+================================================================================
+
+
+INFO   : the flag for use of LIBINT has been found!
+
+================================================================================
+                                       INPUT FILE
+================================================================================
+NAME = N2_0_1_RHF_def2-SVP.sp.inp
+|  1> !rhf def2-svp tightscf kdiis
+|  2> !normalprint
+|  3> 
+|  4> %paras
+|  5>   rNN [0.501187233627272 0.6084298690766428 0.7386199822079362 0.8966678097917788 1.088534267260644 1.32145576997553 1.6042171611153242 1.9474830399087562 2.3641999865500756 2.870084854071569 3.4842175435383975 4.229760619613384 5.134832907437553 6.233570019315557 7.567411809920191 9.1866653175426 11.152402139117903 13.538761800225439 16.43574799372698 19.952623149688797]
+|  6> end
+|  7> 
+|  8> %scf
+|  9>   maxiter 500
+| 10> end
+| 11> 
+| 12> *int 0 1
+| 13> N 0 0 0 0 0 0
+| 14> N 1 0 0 {rNN} 0 0
+| 15> *
+| 16> 
+| 17>                          ****END OF INPUT****
+================================================================================
+
+                       ******************************
+                       * Parameter Scan Calculation *
+                       ******************************
+
+Trajectory settings:
+    -> SCF surface will be mapped
+
+There are 1 parameter(s) to be scanned
+           RNN: user defined at 20 points
+There will be   20 energy evaluations
+
+
+         *************************************************************
+                                TRAJECTORY STEP   1
+                RNN  :   0.50118723
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      0.501187    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    0.947107    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     0.501187233627     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     0.947106613373     0.00000000     0.00000000
+
+---------------------
+BASIS SET INFORMATION
+---------------------
+There are 1 groups of distinct atoms
+
+ Group   1 Type N   : 7s4p1d contracted to 3s2p1d pattern {511/31/1}
+
+Atom   0N    basis set group =>   1
+Atom   1N    basis set group =>   1
+
+Checking for AutoStart:
+The File: N2_0_1_RHF_def2-SVP.sp.gbw exists
+Trying to determine its content:
+     ... Fine, the file contains calculation information
+     ... Fine, the calculation information was read
+     ... Fine, the file contains a basis set
+     ... Fine, the basis set was read
+     ... Fine, the file contains a geometry
+     ... Fine, the geometry was read
+     ... Fine, the file contains a set of orbitals
+     ... Fine, the orbitals can be read
+     => possible old guess file was deleted
+     => GBW file was renamed to GES file
+     => GES file is set as startup file
+     => Guess is set to MORead
+     ... now leaving AutoStart
+
+------------------------------------------------------------------------------
+                           ORCA GTO INTEGRAL CALCULATION
+------------------------------------------------------------------------------
+
+                         BASIS SET STATISTICS AND STARTUP INFO
+
+ # of primitive gaussian shells          ...   24
+ # of primitive gaussian functions       ...   48
+ # of contracted shells                  ...   12
+ # of contracted basis functions         ...   28
+ Highest angular momentum                ...    2
+ Maximum contraction depth               ...    5
+ Integral package used                   ... LIBINT
+ Integral threshhold            Thresh   ...  2.500e-11
+ Primitive cut-off              TCut     ...  2.500e-12
+
+
+------------------------------ INTEGRAL EVALUATION ----------------------------
+
+
+ * One electron integrals 
+ Pre-screening matrix                    ... done
+ Shell pair data                         ... done (   0.000 sec)
+
+-------------------------------------------------------------------------------
+                                 ORCA SCF
+-------------------------------------------------------------------------------
+
+------------
+SCF SETTINGS
+------------
+Hamiltonian:
+ Ab initio Hamiltonian  Method          .... Hartree-Fock(GTOs)
+
+
+General Settings:
+ Integral files         IntName         .... N2_0_1_RHF_def2-SVP.sp
+ Hartree-Fock type      HFTyp           .... RHF
+ Total Charge           Charge          ....    0
+ Multiplicity           Mult            ....    1
+ Number of Electrons    NEL             ....   14
+ Basis Dimension        Dim             ....   28
+ Nuclear Repulsion      ENuc            ....     51.7365197414 Eh
+
+Convergence Acceleration:
+ DIIS                   CNVDIIS         .... off
+ Newton-Raphson         CNVNR           .... off
+ SOSCF                  CNVSOSCF        .... off
+ Level Shifting         CNVShift        .... off
+ Zerner damping         CNVZerner       .... off
+ Static damping         CNVDamp         .... off
+ Fernandez-Rico         CNVRico         .... off
+
+SCF Procedure:
+ Maximum # iterations   MaxIter         ....   500
+ SCF integral mode      SCFMode         .... Direct
+   Integral package                     .... LIBINT
+ Reset frequency        DirectResetFreq ....    20
+ Integral Threshold     Thresh          ....  2.500e-11 Eh
+ Primitive CutOff       TCut            ....  2.500e-12 Eh
+
+Convergence Tolerance:
+ Convergence Check Mode ConvCheckMode   .... Total+1el-Energy
+ Convergence forced     ConvForced      .... 0
+ Energy Change          TolE            ....  1.000e-08 Eh
+ 1-El. energy change                    ....  1.000e-05 Eh
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 2.288e-04
+Time for diagonalization                   ...    0.091 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.002 sec
+Total time needed                          ...    0.093 sec
+
+---------------------
+INITIAL GUESS: MOREAD
+---------------------
+Guess MOs are being read from file: N2_0_1_RHF_def2-SVP.sp.ges
+Input Geometry matches current geometry (good)
+Input basis set matches current basis set (good)
+MOs were renormalized
+MOs were reorthogonalized (Cholesky)
+                      ------------------
+                      INITIAL GUESS DONE (   0.0 sec)
+                      ------------------
+--------------
+SCF ITERATIONS
+--------------
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+
+                         ----------------------------
+                         !        ITERATION     0   !
+                         ----------------------------
+   Total Energy        :    -101.590955243621 Eh
+   Energy Change       :    -101.590955243621 Eh
+   MAX-DP              :       0.000000162913
+   RMS-DP              :       0.000000017512
+   Actual Damping      :       0.9000
+
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.483 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   1 CYCLES          *
+               *****************************************************
+
+
+----------------
+TOTAL SCF ENERGY
+----------------
+
+Total Energy       :         -101.59095524 Eh           -2764.43043 eV
+
+Components:
+Nuclear Repulsion  :           51.73651974 Eh            1407.82227 eV
+Electronic Energy  :         -153.32747499 Eh           -4172.25271 eV
+One Electron Energy:         -229.26116757 Eh           -6238.51353 eV
+Two Electron Energy:           75.93369259 Eh            2066.26082 eV
+
+Virial components:
+Potential Energy   :         -220.09080510 Eh           -5988.97528 eV
+Kinetic Energy     :          118.49984986 Eh            3224.54485 eV
+Virial Ratio       :            1.85730873
+
+
+---------------
+SCF CONVERGENCE
+---------------
+
+  Last Energy change         ...    8.5265e-14  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    2.8947e-07  Tolerance :   1.0000e-07
+  Last RMS-Density change    ...    2.5530e-08  Tolerance :   5.0000e-09
+
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+----------------
+ORBITAL ENERGIES
+----------------
+
+  NO   OCC          E(Eh)            E(eV) 
+   0   2.0000     -17.056877      -464.1412 
+   1   2.0000     -16.368653      -445.4137 
+   2   2.0000      -1.675371       -45.5891 
+   3   2.0000      -1.504874       -40.9497 
+   4   2.0000      -1.497739       -40.7556 
+   5   2.0000      -0.682235       -18.5646 
+   6   2.0000       0.088858         2.4180 
+   7   0.0000      -0.215454        -5.8628 
+   8   0.0000       0.426964        11.6183 
+   9   0.0000       0.435818        11.8592 
+  10   0.0000       0.506889        13.7931 
+  11   0.0000       0.529201        14.4003 
+  12   0.0000       0.595905        16.2154 
+  13   0.0000       0.743849        20.2412 
+  14   0.0000       1.245513        33.8921 
+  15   0.0000       1.280660        34.8485 
+  16   0.0000       1.415488        38.5174 
+  17   0.0000       1.790298        48.7165 
+  18   0.0000       1.790353        48.7180 
+  19   0.0000       2.967642        80.7536 
+  20   0.0000       2.968516        80.7774 
+  21   0.0000       3.004199        81.7484 
+  22   0.0000       3.137851        85.3853 
+  23   0.0000       3.149393        85.6993 
+  24   0.0000       3.149674        85.7070 
+  25   0.0000       5.251966       142.9133 
+  26   0.0000       5.269348       143.3863 
+  27   0.0000       5.513654       150.0341 
+
+                    ********************************
+                    * MULLIKEN POPULATION ANALYSIS *
+                    ********************************
+
+-----------------------
+MULLIKEN ATOMIC CHARGES
+-----------------------
+   0 N :   -0.000001
+   1 N :    0.000001
+Sum of atomic charges:   -0.0000000
+
+--------------------------------
+MULLIKEN REDUCED ORBITAL CHARGES
+--------------------------------
+  0 N s       :     3.361975  s :     3.361975
+      pz      :     1.619292  p :     3.490499
+      px      :     0.631659
+      py      :     1.239548
+      dz2     :     0.001605  d :     0.147527
+      dxz     :     0.081343
+      dyz     :     0.000065
+      dx2y2   :     0.004696
+      dxy     :     0.059818
+  1 N s       :     3.361974  s :     3.361974
+      pz      :     1.619291  p :     3.490498
+      px      :     0.631659
+      py      :     1.239548
+      dz2     :     0.001605  d :     0.147527
+      dxz     :     0.081343
+      dyz     :     0.000065
+      dx2y2   :     0.004696
+      dxy     :     0.059818
+
+------------------------
+MULLIKEN OVERLAP CHARGES
+------------------------
+B(  0-N ,  1-N ) : -14.2315 
+
+
+                     *******************************
+                     * LOEWDIN POPULATION ANALYSIS *
+                     *******************************
+
+----------------------
+LOEWDIN ATOMIC CHARGES
+----------------------
+   0 N :   -0.000000
+   1 N :    0.000000
+
+-------------------------------
+LOEWDIN REDUCED ORBITAL CHARGES
+-------------------------------
+  0 N s       :     2.865355  s :     2.865355
+      pz      :     1.394191  p :     3.570045
+      px      :     1.054257
+      py      :     1.121597
+      dz2     :     0.019950  d :     0.564600
+      dxz     :     0.306443
+      dyz     :     0.000065
+      dx2y2   :     0.060373
+      dxy     :     0.177769
+  1 N s       :     2.865355  s :     2.865355
+      pz      :     1.394191  p :     3.570045
+      px      :     1.054257
+      py      :     1.121597
+      dz2     :     0.019950  d :     0.564600
+      dxz     :     0.306443
+      dyz     :     0.000065
+      dx2y2   :     0.060373
+      dxy     :     0.177769
+
+---------------------------------
+LOEWDIN BOND ORDERS (THRESH 0.050000)
+---------------------------------
+B(  0-N ,  1-N ) :   4.8938 
+
+------------------------------------------
+LOEWDIN REDUCED ORBITAL POPULATIONS PER MO
+-------------------------------------------
+THRESHOLD FOR PRINTING IS 0.1%
+                      0         1         2         3         4         5   
+                 -17.05688 -16.36865  -1.67537  -1.50487  -1.49774  -0.68224
+                   2.00000   2.00000   2.00000   2.00000   2.00000   2.00000
+                  --------  --------  --------  --------  --------  --------
+ 0 N  s              46.0      47.3      42.3       0.0       0.0       7.7
+ 0 N  pz              0.0       0.0       0.0      13.7      32.4       0.0
+ 0 N  px              2.2       1.3       7.5       0.0       0.0      41.7
+ 0 N  py              0.0       0.0       0.0      32.2      13.8       0.0
+ 0 N  dz2             0.4       0.3       0.1       0.0       0.0       0.2
+ 0 N  dxz             0.0       0.0       0.0       1.2       2.6       0.0
+ 0 N  dx2y2           1.3       1.0       0.2       0.0       0.0       0.4
+ 0 N  dxy             0.0       0.0       0.0       2.9       1.1       0.0
+ 1 N  s              46.0      47.3      42.3       0.0       0.0       7.7
+ 1 N  pz              0.0       0.0       0.0      13.7      32.4       0.0
+ 1 N  px              2.2       1.3       7.5       0.0       0.0      41.7
+ 1 N  py              0.0       0.0       0.0      32.2      13.8       0.0
+ 1 N  dz2             0.4       0.3       0.1       0.0       0.0       0.2
+ 1 N  dxz             0.0       0.0       0.0       1.2       2.6       0.0
+ 1 N  dx2y2           1.3       1.0       0.2       0.0       0.0       0.4
+ 1 N  dxy             0.0       0.0       0.0       2.9       1.1       0.0
+
+                      6         7         8         9        10        11   
+                   0.08886  -0.21545   0.42696   0.43582   0.50689   0.52920
+                   2.00000   0.00000   0.00000   0.00000   0.00000   0.00000
+                  --------  --------  --------  --------  --------  --------
+ 0 N  s               0.0      11.2      34.4       0.0       0.0       0.0
+ 0 N  pz             23.6       0.0       0.0      10.9      14.6      34.0
+ 0 N  px              0.0      35.3      15.6       0.0       0.0       0.0
+ 0 N  py             10.1       0.0       0.0      25.5      34.1      14.5
+ 0 N  dz2             0.0       0.8       0.0       0.0       0.0       0.0
+ 0 N  dxz            11.5       0.0       0.0       4.1       0.4       1.0
+ 0 N  dx2y2           0.0       2.6       0.0       0.0       0.0       0.0
+ 0 N  dxy             4.9       0.0       0.0       9.5       0.9       0.4
+ 1 N  s               0.0      11.2      34.4       0.0       0.0       0.0
+ 1 N  pz             23.6       0.0       0.0      10.9      14.6      34.0
+ 1 N  px              0.0      35.3      15.6       0.0       0.0       0.0
+ 1 N  py             10.1       0.0       0.0      25.5      34.1      14.5
+ 1 N  dz2             0.0       0.8       0.0       0.0       0.0       0.0
+ 1 N  dxz            11.5       0.0       0.0       4.1       0.4       1.0
+ 1 N  dx2y2           0.0       2.6       0.0       0.0       0.0       0.0
+ 1 N  dxy             4.9       0.0       0.0       9.5       0.9       0.4
+
+                     12        13        14        15        16        17   
+                   0.59591   0.74385   1.24551   1.28066   1.41549   1.79030
+                   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000
+                  --------  --------  --------  --------  --------  --------
+ 0 N  s              33.2      13.1       0.0       0.0      18.6       0.0
+ 0 N  pz              0.0       0.0      26.6      10.4       0.0       0.0
+ 0 N  px             16.5      32.8       0.0       0.0      26.6       0.0
+ 0 N  py              0.0       0.0      11.3      24.4       0.0       0.0
+ 0 N  dz2             0.1       1.0       0.0       0.0       1.2      31.5
+ 0 N  dxz             0.0       0.0       8.5       4.5       0.0       0.0
+ 0 N  dyz             0.0       0.0       0.0       0.0       0.0       8.1
+ 0 N  dx2y2           0.2       3.1       0.0       0.0       3.6      10.5
+ 0 N  dxy             0.0       0.0       3.6      10.6       0.0       0.0
+ 1 N  s              33.2      13.1       0.0       0.0      18.6       0.0
+ 1 N  pz              0.0       0.0      26.6      10.4       0.0       0.0
+ 1 N  px             16.5      32.8       0.0       0.0      26.6       0.0
+ 1 N  py              0.0       0.0      11.3      24.4       0.0       0.0
+ 1 N  dz2             0.1       1.0       0.0       0.0       1.2      31.5
+ 1 N  dxz             0.0       0.0       8.5       4.5       0.0       0.0
+ 1 N  dyz             0.0       0.0       0.0       0.0       0.0       8.1
+ 1 N  dx2y2           0.2       3.1       0.0       0.0       3.6      10.5
+ 1 N  dxy             0.0       0.0       3.6      10.6       0.0       0.0
+
+                     18        19        20        21        22        23   
+                   1.79035   2.96764   2.96852   3.00420   3.13785   3.14939
+                   0.00000   0.00000   0.00000   0.00000   0.00000   0.00000
+                  --------  --------  --------  --------  --------  --------
+ 0 N  s               0.0       0.0       0.0       2.3       4.1       0.0
+ 0 N  pz              0.0       1.6       3.6       0.0       0.0       0.0
+ 0 N  px              0.0       0.0       0.0       6.1       5.6       0.0
+ 0 N  py              0.0       3.8       1.6       0.0       0.0       0.0
+ 0 N  dz2             5.9       0.0       0.0       9.7      10.3      31.5
+ 0 N  dxz             0.0      13.4      31.4       0.0       0.0       0.0
+ 0 N  dyz            41.9       0.0       0.0       0.1       0.0       8.1
+ 0 N  dx2y2           2.2       0.0       0.0      31.7      30.0      10.5
+ 0 N  dxy             0.0      31.3      13.4       0.0       0.0       0.0
+ 1 N  s               0.0       0.0       0.0       2.3       4.1       0.0
+ 1 N  pz              0.0       1.6       3.6       0.0       0.0       0.0
+ 1 N  px              0.0       0.0       0.0       6.1       5.6       0.0
+ 1 N  py              0.0       3.8       1.6       0.0       0.0       0.0
+ 1 N  dz2             5.9       0.0       0.0       9.7      10.3      31.5
+ 1 N  dxz             0.0      13.4      31.4       0.0       0.0       0.0
+ 1 N  dyz            41.9       0.0       0.0       0.1       0.0       8.1
+ 1 N  dx2y2           2.2       0.0       0.0      31.7      30.0      10.5
+ 1 N  dxy             0.0      31.3      13.4       0.0       0.0       0.0
+
+                     24        25        26        27   
+                   3.14967   5.25197   5.26935   5.51365
+                   0.00000   0.00000   0.00000   0.00000
+                  --------  --------  --------  --------
+ 0 N  s               0.0       0.0       0.0      39.6
+ 0 N  pz              0.0       8.6      19.9       0.0
+ 0 N  px              0.0       0.0       0.0       8.7
+ 0 N  py              0.0      20.1       8.5       0.0
+ 0 N  dz2             6.7       0.0       0.0       0.4
+ 0 N  dxz             0.0       6.4      15.1       0.0
+ 0 N  dyz            41.9       0.0       0.0       0.0
+ 0 N  dx2y2           1.4       0.0       0.0       1.3
+ 0 N  dxy             0.0      14.9       6.4       0.0
+ 1 N  s               0.0       0.0       0.0      39.6
+ 1 N  pz              0.0       8.6      19.9       0.0
+ 1 N  px              0.0       0.0       0.0       8.7
+ 1 N  py              0.0      20.1       8.5       0.0
+ 1 N  dz2             6.7       0.0       0.0       0.4
+ 1 N  dxz             0.0       6.4      15.1       0.0
+ 1 N  dyz            41.9       0.0       0.0       0.0
+ 1 N  dx2y2           1.4       0.0       0.0       1.3
+ 1 N  dxy             0.0      14.9       6.4       0.0
+
+
+                      *****************************
+                      * MAYER POPULATION ANALYSIS *
+                      *****************************
+
+  NA   - Mulliken gross atomic population
+  ZA   - Total nuclear charge
+  QA   - Mulliken gross atomic charge
+  VA   - Mayer's total valence
+  BVA  - Mayer's bonded valence
+  FA   - Mayer's free valence
+
+  ATOM       NA         ZA         QA         VA         BVA        FA
+  0 N      7.0000     7.0000    -0.0000     3.6745     3.6745    -0.0000
+  1 N      7.0000     7.0000     0.0000     3.6745     3.6745    -0.0000
+
+  Mayer bond orders larger than 0.100000
+B(  0-N ,  1-N ) :   3.6745 
+
+-------
+TIMINGS
+-------
+
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+Total time                  ....       0.505 sec
+Sum of individual times     ....       0.232 sec  ( 46.0%)
+
+Fock matrix formation       ....       0.169 sec  ( 33.4%)
+Diagonalization             ....       0.045 sec  (  8.8%)
+Density matrix formation    ....       0.000 sec  (  0.0%)
+Population analysis         ....       0.012 sec  (  2.3%)
+Initial guess               ....       0.007 sec  (  1.4%)
+Orbital Transformation      ....       0.000 sec  (  0.0%)
+Orbital Orthonormalization  ....       0.006 sec  (  1.1%)
+DIIS solution               ....       0.000 sec  (  0.0%)
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -101.590955243621
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.001.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 0.473553,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :     -0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     9.582565     9.582565 
+Rotational constants in MHz :     0.000000 287278.067701 287278.067701 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000001     0.000000    -0.000000 
+x,y,z [Debye]:     0.000002     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   2
+                RNN  :   0.60842987
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      0.608430    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    1.149766    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     0.608429869077     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.149765824252     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 3.432e-04
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -104.5811357311   0.000000000000 0.03672039  0.00380133  0.2807773   0.162674049
+  1   -104.5951654566  -0.014029725509 0.08797747  0.00943990  0.2544167   0.148681621
+  2   -104.6256385996  -0.030473143077 0.14889965  0.01645190  0.2021976   0.118707076
+  3   -104.6614121724  -0.035773572731 0.29109830  0.02754181  0.1204733   0.071157349
+  4   -104.6821699040  -0.020757731627 0.00085102  0.00009977  0.0010526   0.000817180
+  5   -104.6821681076   0.000001796443 0.00333692  0.00033240  0.0011518   0.000883535
+  6   -104.6821725845  -0.000004476945 0.00451339  0.00030238  0.0001355   0.000126876
+  7   -104.6821726971  -0.000000112628 0.00181938  0.00012417  0.0000636   0.000037399
+  8   -104.6821727085  -0.000000011372 0.00038026  0.00002486  0.0000044   0.000003223
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.917 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   9 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -104.68217271 Eh           -2848.54674 eV
+  Last Energy change         ...   -7.4891e-11  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    9.0474e-05  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -104.682172708578
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.002.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 0.574883,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00001
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     6.502206     6.502206 
+Rotational constants in MHz :     0.000000 194931.227832 194931.227832 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000004     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000009     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   3
+                RNN  :   0.73861998
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      0.738620    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    1.395789    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     0.738619982208     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.395789483415     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 6.532e-04
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -106.5559770776   0.000000000000 0.02891529  0.00249202  0.1686048   0.113546101
+  1   -106.5662900568  -0.010312979190 0.08775597  0.00738712  0.1525385   0.103532579
+  2   -106.5872486532  -0.020958596435 0.14420209  0.01191394  0.1219485   0.083433301
+  3   -106.6126936762  -0.025445022993 0.22602649  0.01860250  0.0729270   0.050126117
+  4   -106.6273936165  -0.014699940311 0.00069279  0.00004924  0.0008284   0.000603696
+  5   -106.6273932109   0.000000405645 0.01219719  0.00084491  0.0008793   0.000638874
+  6   -106.6273959831  -0.000002772205 0.00334228  0.00022922  0.0001724   0.000132832
+  7   -106.6273960803  -0.000000097227 0.00277101  0.00018398  0.0000640   0.000035523
+  8   -106.6273960903  -0.000000010023 0.00036995  0.00002426  0.0000121   0.000008464
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.926 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   9 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -106.62739609 Eh           -2901.47896 eV
+  Last Energy change         ...   -3.4152e-10  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    3.1621e-04  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -106.627396090687
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.003.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 0.697895,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     4.412042     4.412042 
+Rotational constants in MHz :     0.000000 132269.699139 132269.699139 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000001     0.000000    -0.000000 
+x,y,z [Debye]:     0.000003     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   4
+                RNN  :   0.89666781
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      0.896668    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    1.694457    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     0.896667809792     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.694456593609     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.653e-03
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -107.5761675356   0.000000000000 0.02107971  0.00202884  0.1122730   0.098124809
+  1   -107.5881760290  -0.012008493449 0.06385989  0.00658284  0.1023050   0.089549373
+  2   -107.6111102536  -0.022934224613 0.11024188  0.01119811  0.0847383   0.073228885
+  3   -107.6407679572  -0.029657703612 0.17185887  0.01725609  0.0513117   0.044252405
+  4   -107.6579933117  -0.017225354497 0.00031882  0.00004432  0.0009164   0.000630922
+  5   -107.6579923077   0.000001004083 0.00345511  0.00026229  0.0010280   0.000698258
+  6   -107.6579949806  -0.000002672907 0.00106227  0.00007612  0.0001196   0.000092682
+  7   -107.6579950346  -0.000000054064 0.00040841  0.00002960  0.0000248   0.000018094
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.874 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   8 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -107.65799504 Eh           -2929.52298 eV
+  Last Energy change         ...   -2.8873e-09  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    3.7908e-05  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -107.657995037516
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.004.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 0.847228,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00002       0.00000      -0.00000
+Nuclear contribution   :     -0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00002       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00002
+Magnitude (Debye)      :      0.00005
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     2.993771     2.993771 
+Rotational constants in MHz :     0.000000 89751.003494 89751.003494 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000021     0.000000    -0.000000 
+x,y,z [Debye]:     0.000053     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   5
+                RNN  :   1.08853427
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      1.088534    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    2.057032    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.088534267261     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     2.057031652511     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 4.692e-03
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0281306052   0.000000000000 0.01336264  0.00129405  0.0987287   0.086524075
+  1   -108.0389150353  -0.010784430156 0.03836188  0.00372363  0.0894064   0.078975937
+  2   -108.0587757237  -0.019860688347 0.06552826  0.00644194  0.0742360   0.064967139
+  3   -108.0851740757  -0.026398351979 0.09694527  0.00975432  0.0449451   0.039384587
+  4   -108.1005696215  -0.015395545806 0.00044839  0.00003940  0.0005411   0.000394956
+  5   -108.1005704092  -0.000000787765 0.00011441  0.00001352  0.0001071   0.000071671
+  6   -108.1005704706  -0.000000061421 0.00008712  0.00001395  0.0000767   0.000038679
+  7   -108.1005704351   0.000000035507 0.00002934  0.00000332  0.0000256   0.000025147
+  8   -108.1005704387  -0.000000003571 0.00002007  0.00000179  0.0000078   0.000007392
+  9   -108.1005704391  -0.000000000435 0.00000372  0.00000037  0.0000021   0.000001319
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 1.005 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER  10 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.10057044 Eh           -2941.56607 eV
+  Last Energy change         ...   -1.8815e-11  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    8.9404e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 1 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.100570439166
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.005.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 1.028516,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     2.031410     2.031410 
+Rotational constants in MHz :     0.000000 60900.135713 60900.135713 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000000     0.000000    -0.000000 
+x,y,z [Debye]:     0.000001     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   6
+                RNN  :   1.32145577
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      1.321456    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    2.497190    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.321455769976     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     2.497189503344     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.281e-02
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1710239486   0.000000000000 0.00894205  0.00103266  0.0843856   0.074748995
+  1   -108.1799213291  -0.008897380568 0.02306025  0.00250828  0.0776673   0.068239966
+  2   -108.1961368906  -0.016215561465 0.04249302  0.00457318  0.0654076   0.056325340
+  3   -108.2183154629  -0.022178572269 0.06815191  0.00697360  0.0406208   0.034172771
+  4   -108.2312843380  -0.012968875092 0.00028355  0.00003388  0.0004419   0.000313842
+  5   -108.2312849176  -0.000000579640 0.00021429  0.00001956  0.0001225   0.000086885
+  6   -108.2312849800  -0.000000062394 0.00002162  0.00000216  0.0000237   0.000017910
+Warning: badly conditioned DIIS matrix, 1 vectors out of 5 destroyed
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.784 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   7 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.23128498 Eh           -2945.12299 eV
+  Last Energy change         ...   -1.7702e-09  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    5.2005e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.231284981775
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.006.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 1.248595,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     1.378404     1.378404 
+Rotational constants in MHz :     0.000000 41323.510439 41323.510439 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000000     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000000     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   7
+                RNN  :   1.60421716
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      1.604217    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    3.031531    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.604217161115     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     3.031531093845     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 3.158e-02
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1960558184   0.000000000000 0.00962650  0.00088615  0.0772491   0.064169809
+  1   -108.2029115687  -0.006855750226 0.02258236  0.00192757  0.0709919   0.058420078
+  2   -108.2152756819  -0.012364113266 0.03988875  0.00346951  0.0591739   0.047969758
+  3   -108.2317618070  -0.016486125063 0.06128834  0.00524576  0.0364036   0.029007303
+  4   -108.2413038098  -0.009542002861 0.00048220  0.00003738  0.0003912   0.000280921
+  5   -108.2413042664  -0.000000456575 0.00011354  0.00001246  0.0001083   0.000069093
+Warning: badly conditioned DIIS matrix, 1 vectors out of 5 destroyed
+  6   -108.2413042965  -0.000000030074 0.00004507  0.00000374  0.0000229   0.000020734
+Warning: badly conditioned DIIS matrix, 1 vectors out of 5 destroyed
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.772 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   7 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.24130430 Eh           -2945.39563 eV
+  Last Energy change         ...   -4.4219e-09  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    3.8286e-05  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.241304300915
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.007.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 1.515766,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.935310     0.935310 
+Rotational constants in MHz :     0.000000 28039.880290 28039.880290 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000002     0.000000    -0.000000 
+x,y,z [Debye]:     0.000004     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   8
+                RNN  :   1.94748304
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      1.947483    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    3.680210    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     1.947483039909     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     3.680209595884     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 6.663e-02
+Time for diagonalization                   ...    0.001 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1939450629   0.000000000000 0.00637152  0.00058239  0.0568363   0.044943905
+  1   -108.1973204885  -0.003375425686 0.01412448  0.00122010  0.0521285   0.040836320
+  2   -108.2033850292  -0.006064540691 0.02367839  0.00209623  0.0427232   0.033179296
+  3   -108.2109616420  -0.007576612814 0.03574106  0.00316054  0.0259926   0.019987123
+  4   -108.2152937246  -0.004332082565 0.00031938  0.00002425  0.0001842   0.000148130
+  5   -108.2152938729  -0.000000148270 0.00004666  0.00000385  0.0000220   0.000016920
+Warning: badly conditioned DIIS matrix, 1 vectors out of 5 destroyed
+  6   -108.2152938755  -0.000000002617 0.00001474  0.00000118  0.0000074   0.000007167
+Warning: badly conditioned DIIS matrix, 1 vectors out of 5 destroyed
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.782 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   7 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.21529388 Eh           -2944.68785 eV
+  Last Energy change         ...   -5.1708e-10  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    1.1919e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.215293876017
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.008.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 1.840105,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00001       0.00000      -0.00000
+Nuclear contribution   :     -0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00001       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00001
+Magnitude (Debye)      :      0.00002
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.634650     0.634650 
+Rotational constants in MHz :     0.000000 19026.333395 19026.333395 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000008     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000020     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP   9
+                RNN  :   2.36419999
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      2.364200    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    4.467691    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     2.364199986550     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     4.467690500400     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.148e-01
+Time for diagonalization                   ...    0.001 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1740700059   0.000000000000 0.00287500  0.00027416  0.0302081   0.022608359
+  1   -108.1749228533  -0.000852847360 0.00630403  0.00056089  0.0276958   0.020544773
+  2   -108.1764635041  -0.001540650823 0.01044254  0.00093292  0.0224179   0.016552815
+  3   -108.1783013185  -0.001837814447 0.01572831  0.00140238  0.0135272   0.009945564
+  4   -108.1793430771  -0.001041758560 0.00007517  0.00000594  0.0000510   0.000038234
+  5   -108.1793430874  -0.000000010317 0.00001226  0.00000119  0.0000069   0.000006540
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.698 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   6 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.17934309 Eh           -2943.70958 eV
+  Last Energy change         ...   -3.1197e-10  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    8.3725e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.179343087727
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.009.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 2.233845,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.430639     0.430639 
+Rotational constants in MHz :     0.000000 12910.232095 12910.232095 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000001     0.000000    -0.000000 
+x,y,z [Debye]:     0.000002     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  10
+                RNN  :   2.87008485
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      2.870085    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    5.423674    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     2.870084854072     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     5.423674355311     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.570e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1461901500   0.000000000000 0.00105124  0.00010316  0.0121957   0.010317522
+  1   -108.1463216725  -0.000131522558 0.00225866  0.00020274  0.0111527   0.009352543
+  2   -108.1465540785  -0.000232405918 0.00367355  0.00033469  0.0089820   0.007505361
+  3   -108.1468265422  -0.000272463749 0.00550489  0.00050258  0.0054023   0.004503732
+  4   -108.1469802874  -0.000153745159 0.00001937  0.00000150  0.0000128   0.000008136
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.620 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.14698029 Eh           -2942.82894 eV
+  Last Energy change         ...   -6.2799e-10  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    4.3466e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.146980287999
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.010.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 2.711837,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00001       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00001       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00001
+Magnitude (Debye)      :      0.00003
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.292208     0.292208 
+Rotational constants in MHz :     0.000000  8760.179341  8760.179341 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000013     0.000000    -0.000000 
+x,y,z [Debye]:     0.000032     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  11
+                RNN  :   3.48421754
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      3.484218    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    6.584217    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     3.484217543538     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     6.584216948291     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.778e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1238876189   0.000000000000 0.00037112  0.00004518  0.0084269   0.005955066
+  1   -108.1239139737  -0.000026354820 0.00076706  0.00009579  0.0075792   0.005385002
+  2   -108.1239598926  -0.000045918871 0.00123552  0.00015942  0.0060691   0.004315677
+  3   -108.1240136489  -0.000053756283 0.00184774  0.00024039  0.0036401   0.002589151
+  4   -108.1240440050  -0.000030356170 0.00004072  0.00000397  0.0000269   0.000021067
+  5   -108.1240440101  -0.000000005087 0.00000414  0.00000035  0.0000029   0.000002028
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.692 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   6 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.12404401 Eh           -2942.20482 eV
+  Last Energy change         ...    1.1227e-12  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    1.3257e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.124044010129
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.011.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 3.292108,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.198276     0.198276 
+Rotational constants in MHz :     0.000000  5944.179897  5944.179897 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000000     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000000     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  12
+                RNN  :   4.22976062
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      4.229761    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    7.993089    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     4.229760619613     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     7.993089183114     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.839e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.1089292135   0.000000000000 0.00022982  0.00002216  0.0037152   0.002807874
+  1   -108.1089351622  -0.000005948660 0.00047363  0.00004747  0.0033329   0.002536021
+  2   -108.1089453650  -0.000010202789 0.00077415  0.00007924  0.0026691   0.002032449
+  3   -108.1089573517  -0.000011986770 0.00116162  0.00011988  0.0016001   0.001219186
+  4   -108.1089641190  -0.000006767301 0.00000515  0.00000035  0.0000021   0.000001546
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.604 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.10896412 Eh           -2941.79447 eV
+  Last Energy change         ...   -1.9341e-11  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    7.0732e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.108964119052
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.012.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 3.996545,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00001       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00001       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00001
+Magnitude (Debye)      :      0.00002
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.134540     0.134540 
+Rotational constants in MHz :     0.000000  4033.396267  4033.396267 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000006     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000016     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  13
+                RNN  :   5.13483291
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      5.134833    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007    9.703428    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     5.134832907438     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     9.703427938504     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0981370586   0.000000000000 0.00015138  0.00001035  0.0015332   0.000975189
+  1   -108.0981382091  -0.000001150444 0.00029427  0.00002019  0.0013786   0.000879146
+  2   -108.0981400650  -0.000001855978 0.00047208  0.00003272  0.0011054   0.000704602
+  3   -108.0981422114  -0.000002146318 0.00070848  0.00004936  0.0006633   0.000423152
+  4   -108.0981434309  -0.000001219566 0.00000631  0.00000073  0.0000044   0.000003945
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.632 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.09814343 Eh           -2941.50003 eV
+  Last Energy change         ...   -2.3040e-10  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    7.4777e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.098143431161
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.013.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 4.851714,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00000       0.00000      -0.00000
+Nuclear contribution   :     -0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.091291     0.091291 
+Rotational constants in MHz :     0.000000  2736.842715  2736.842715 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000000     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000000     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  14
+                RNN  :   6.23357002
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      6.233570    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   11.779740    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     6.233570019316     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    11.779740173129     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0894105412   0.000000000000 0.00004615  0.00000382  0.0009806   0.000431052
+  1   -108.0894107679  -0.000000226752 0.00008813  0.00000709  0.0008838   0.000387809
+  2   -108.0894111181  -0.000000350159 0.00014181  0.00001160  0.0007092   0.000311127
+  3   -108.0894115251  -0.000000407065 0.00021229  0.00001744  0.0004253   0.000186636
+  4   -108.0894117547  -0.000000229523 0.00000056  0.00000005  0.0000004   0.000000363
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.593 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.08941175 Eh           -2941.26242 eV
+  Last Energy change         ...   -2.0179e-12  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    1.5291e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.089411754661
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.014.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 5.889870,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:     -0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :     -0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00001
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.061945     0.061945 
+Rotational constants in MHz :     0.000000  1857.072191  1857.072191 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :    -0.000003     0.000000    -0.000000 
+x,y,z [Debye]:    -0.000009     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  15
+                RNN  :   7.56741181
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      7.567412    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   14.300336    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     7.567411809920     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    14.300335863351     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0821262621   0.000000000000 0.00001655  0.00000191  0.0006434   0.000260392
+  1   -108.0821263377  -0.000000075578 0.00003119  0.00000351  0.0005810   0.000234657
+  2   -108.0821264549  -0.000000117265 0.00005006  0.00000572  0.0004667   0.000188426
+  3   -108.0821265907  -0.000000135748 0.00007529  0.00000873  0.0002815   0.000113608
+  4   -108.0821266684  -0.000000077740 0.00000085  0.00000008  0.0000006   0.000000444
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.598 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.08212667 Eh           -2941.06419 eV
+  Last Energy change         ...   -1.7479e-12  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    1.7162e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.082126668415
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.015.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 7.150168,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.042033     0.042033 
+Rotational constants in MHz :     0.000000  1260.107899  1260.107899 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000000     0.000000    -0.000000 
+x,y,z [Debye]:     0.000000     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  16
+                RNN  :   9.18666532
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N      9.186665    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   17.360282    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0     9.186665317543     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    17.360281534148     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0760667324   0.000000000000 0.00000890  0.00000114  0.0004262   0.000167507
+  1   -108.0760667623  -0.000000029929 0.00001663  0.00000210  0.0003855   0.000151236
+  2   -108.0760668095  -0.000000047177 0.00002670  0.00000345  0.0003098   0.000121525
+  3   -108.0760668646  -0.000000055091 0.00004000  0.00000518  0.0001859   0.000072921
+  4   -108.0760668955  -0.000000030985 0.00000018  0.00000002  0.0000001   0.000000117
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.602 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.07606690 Eh           -2940.89929 eV
+  Last Energy change         ...   -5.6275e-12  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    7.9100e-08  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.076066895541
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.016.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = ( 8.680141,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000       0.00000      -0.00000
+Nuclear contribution   :     -0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000       0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.028521     0.028521 
+Rotational constants in MHz :     0.000000   855.040491   855.040491 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000000     0.000000    -0.000000 
+x,y,z [Debye]:     0.000001     0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  17
+                RNN  :  11.15240214
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N     11.152402    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   21.074986    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    11.152402139118     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    21.074985778290     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0710452190   0.000000000000 0.00000496  0.00000071  0.0002843   0.000109954
+  1   -108.0710452316  -0.000000012584 0.00000920  0.00000132  0.0002574   0.000099418
+  2   -108.0710452517  -0.000000020153 0.00001475  0.00000217  0.0002070   0.000079928
+  3   -108.0710452753  -0.000000023594 0.00002213  0.00000326  0.0001243   0.000047975
+  4   -108.0710452886  -0.000000013284 0.00000050  0.00000005  0.0000003   0.000000345
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.586 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.07104529 Eh           -2940.76265 eV
+  Last Energy change         ...   -1.3074e-12  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    1.1340e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.071045288602
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.017.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = (10.537493,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000      -0.00000      -0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000      -0.00000      -0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.019353     0.019353 
+Rotational constants in MHz :     0.000000   580.183841   580.183841 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000000    -0.000000    -0.000000 
+x,y,z [Debye]:     0.000000    -0.000000    -0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  18
+                RNN  :  13.53876180
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N     13.538762    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   25.584552    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    13.538761800225     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    25.584551994821     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0668932113   0.000000000000 0.00000307  0.00000045  0.0001907   0.000073055
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.326 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   1 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.06689322 Eh           -2940.64966 eV
+  Last Energy change         ...   -5.4810e-09  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    5.7123e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.066893216792
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.018.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = (12.792276,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000      -0.00000       0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000      -0.00000       0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.013132     0.013132 
+Rotational constants in MHz :     0.000000   393.681110   393.681110 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000000    -0.000000     0.000000 
+x,y,z [Debye]:     0.000000    -0.000000     0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  19
+                RNN  :  16.43574799
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N     16.435748    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   31.059063    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    16.435747993727     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    31.059062514290     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0634647332   0.000000000000 0.00000428  0.00000062  0.0002673   0.000102078
+  1   -108.0634647439  -0.000000010679 0.00000804  0.00000119  0.0002422   0.000092441
+  2   -108.0634647613  -0.000000017433 0.00001328  0.00000197  0.0001948   0.000074350
+  3   -108.0634647818  -0.000000020497 0.00001993  0.00000296  0.0001169   0.000044597
+  4   -108.0634647933  -0.000000011525 0.00000014  0.00000001  0.0000001   0.000000074
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.584 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   5 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.06346479 Eh           -2940.55637 eV
+  Last Energy change         ...   -1.8531e-11  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    1.0847e-07  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.063464793335
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.019.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = (15.529531,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000      -0.00000       0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000      -0.00000       0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.008911     0.008911 
+Rotational constants in MHz :     0.000000   267.130529   267.130529 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000000    -0.000000     0.000000 
+x,y,z [Debye]:     0.000000    -0.000000     0.000000 
+
+ 
+
+         *************************************************************
+                                TRAJECTORY STEP  20
+                RNN  :  19.95262315
+         *************************************************************
+---------------------------------
+CARTESIAN COORDINATES (ANGSTROEM)
+---------------------------------
+  N      0.000000    0.000000    0.000000
+  N     19.952623    0.000000    0.000000
+
+----------------------------
+CARTESIAN COORDINATES (A.U.)
+----------------------------
+  NO LB      ZA    FRAG     MASS         X           Y           Z
+   0 N     7.0000    0    14.007    0.000000    0.000000    0.000000
+   1 N     7.0000    0    14.007   37.704993    0.000000    0.000000
+
+--------------------------------
+INTERNAL COORDINATES (ANGSTROEM)
+--------------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    19.952623149689     0.00000000     0.00000000
+
+---------------------------
+INTERNAL COORDINATES (A.U.)
+---------------------------
+ N      0   0   0     0.000000000000     0.00000000     0.00000000
+ N      1   0   0    37.704993406249     0.00000000     0.00000000
+
+
+Diagonalization of the overlap matrix:
+Smallest eigenvalue                        ... 1.849e-01
+Time for diagonalization                   ...    0.000 sec
+Threshold for overlap eigenvalues          ... 1.000e-08
+Number of eigenvalues below threshold      ... 0
+Time for construction of square roots      ...    0.001 sec
+Total time needed                          ...    0.002 sec
+
+--------------
+SCF ITERATIONS
+--------------
+ITER       Energy         Delta-E        Max-DP      RMS-DP      [F,P]   Gradient Norm
+               ***  Starting incremental Fock matrix formation  ***
+                             ****Resetting KDIIS****
+                             ****Turning on KDIIS(Cayley)****
+  0   -108.0606362004   0.000000000000 0.00000137  0.00000019  0.0000866   0.000032896
+                 **** Energy Check signals convergence ****
+                    *** KDIIS BlockDiag ( 0.326 sec) ***
+
+               *****************************************************
+               *                     SUCCESS                       *
+               *           SCF CONVERGED AFTER   1 CYCLES          *
+               *****************************************************
+
+Total Energy       :         -108.06063620 Eh           -2940.47940 eV
+  Last Energy change         ...   -1.1131e-09  Tolerance :   1.0000e-08
+  Last MAX-Density change    ...    2.6206e-06  Tolerance :   1.0000e-07
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+             **** ENERGY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.en.tmp) ****
+             **** THE GBW FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.gbw) ****
+             **** DENSITY FILE WAS UPDATED (N2_0_1_RHF_def2-SVP.sp.scfp) ****
+Total SCF time: 0 days 0 hours 0 min 0 sec 
+
+-------------------------   --------------------
+FINAL SINGLE POINT ENERGY      -108.060636201487
+-------------------------   --------------------
+
+Storing actual gbw-file in N2_0_1_RHF_def2-SVP.sp.020.gbw ... done
+
+                            ***************************************
+                            *     ORCA property calculations      *
+                            ***************************************
+
+                                    ---------------------
+                                    Active property flags
+                                    ---------------------
+   (+) Dipole Moment
+
+
+------------------------------------------------------------------------------
+                       ORCA ELECTRIC PROPERTIES CALCULATION
+------------------------------------------------------------------------------
+
+Dipole Moment Calculation                       ... on
+Quadrupole Moment Calculation                   ... off
+Polarizability Calculation                      ... off
+GBWName                                         ... N2_0_1_RHF_def2-SVP.sp.gbw
+Electron density file                           ... N2_0_1_RHF_def2-SVP.sp.scfp
+The origin for moment calculation is the CENTER OF MASS  = (18.852497,  0.000000  0.000000)
+
+-------------
+DIPOLE MOMENT
+-------------
+                                X             Y             Z
+Electronic contribution:      0.00000      -0.00000       0.00000
+Nuclear contribution   :      0.00000       0.00000       0.00000
+                        -----------------------------------------
+Total Dipole Moment    :      0.00000      -0.00000       0.00000
+                        -----------------------------------------
+Magnitude (a.u.)       :      0.00000
+Magnitude (Debye)      :      0.00000
+
+
+
+--------------------
+Rotational spectrum 
+--------------------
+ 
+Rotational constants in cm-1:     0.000000     0.006046     0.006046 
+Rotational constants in MHz :     0.000000   181.260207   181.260207 
+
+ Dipole components along the rotational axes: 
+x,y,z [a.u.] :     0.000001    -0.000000     0.000000 
+x,y,z [Debye]:     0.000002    -0.000000     0.000000 
+
+ 
+                              **** TRAJECTORY DONE ***
+
+                         SUMMARY OF THE CALCULATED SURFACE
+
+------------------
+TRAJECTORY RESULTS
+------------------
+
+Column   1: RNN
+
+The Calculated Surface using the 'Actual Energy'
+   0.50118723 -101.59095524
+   0.60842987 -104.68217271
+   0.73861998 -106.62739609
+   0.89666781 -107.65799504
+   1.08853427 -108.10057044
+   1.32145577 -108.23128498
+   1.60421716 -108.24130430
+   1.94748304 -108.21529388
+   2.36419999 -108.17934309
+   2.87008485 -108.14698029
+   3.48421754 -108.12404401
+   4.22976062 -108.10896412
+   5.13483291 -108.09814343
+   6.23357002 -108.08941175
+   7.56741181 -108.08212667
+   9.18666532 -108.07606690
+  11.15240214 -108.07104529
+  13.53876180 -108.06689322
+  16.43574799 -108.06346479
+  19.95262315 -108.06063620
+
+                        *******************************
+                        *   FIT OF THE ACT-ENERGY PES *
+                        *******************************
+-------------------------------
+POTENTIAL ENERGY SURFACE =   0
+-------------------------------
+
+Minimum found after 15 iterations
+Equilibrium distance and its energy from the interpolated PES:
+  Re      =   1.48613 Angstroem  (  2.80838 Bohr)
+  E(Re)   =  -108.245222 Eh 
+  dE/dR   = 1.067e-08 (-3.238e+00 CHEB)
+  d2E/dR2 =    0.211856 (  10.369562 CHEB) (   0.369462 NUM)
+  d3E/dR3 =   -0.732535 ( -33.395744 CHEB)
+
+Spectroscopic constants:
+  we =     894.3 cm**-1 (based on SPLINE)
+  we =    6256.6 cm**-1 (based on CHEB)
+  we =    1181.0 cm**-1 (based on NUM)
+
+Performing Morse fit ...
+Morse-Fit Results:
+ Te(adiabatic)   =   21703.3 cm**-1         =  2.691 eV
+ d2E/dR**2 (Morse)=      0.068782220 
+ d3E/dR**3 (Morse)=     -0.313617885 
+ d4E/dR**4 (Morse)=      1.112195121 
+ E0               =   -108.146334758 Eh  RMS=2.08e-05
+ Re               =   1.57745 Angstroem      =  2.98096 Bohr RMS=1.71e-05)
+ De(Morse)        =   0.40513 eV             =   3267.6 cm**-1 RMS=6.36e-06
+ D0(Morse)        =   0.37354 eV
+ beta             =   1.51986 au          RMS=8.77e-05
+ we               =    509.6 cm**-1
+ wexe             =     19.9 cm**-1
+ Displacement   =    0.0913 Angstroem      =  0.17257 Bohr
+
+The Calculated Surface using the SCF energy
+   0.50118723 -101.59095524
+   0.60842987 -104.68217271
+   0.73861998 -106.62739609
+   0.89666781 -107.65799504
+   1.08853427 -108.10057044
+   1.32145577 -108.23128498
+   1.60421716 -108.24130430
+   1.94748304 -108.21529388
+   2.36419999 -108.17934309
+   2.87008485 -108.14698029
+   3.48421754 -108.12404401
+   4.22976062 -108.10896412
+   5.13483291 -108.09814343
+   6.23357002 -108.08941175
+   7.56741181 -108.08212667
+   9.18666532 -108.07606690
+  11.15240214 -108.07104529
+  13.53876180 -108.06689322
+  16.43574799 -108.06346479
+  19.95262315 -108.06063620
+
+                        *******************************
+                        *       FIT OF THE SCF PES    *
+                        *******************************
+-------------------------------
+POTENTIAL ENERGY SURFACE =   0
+-------------------------------
+
+Minimum found after 15 iterations
+Equilibrium distance and its energy from the interpolated PES:
+  Re      =   1.48613 Angstroem  (  2.80838 Bohr)
+  E(Re)   =  -108.245222 Eh 
+  dE/dR   = 1.067e-08 (-3.238e+00 CHEB)
+  d2E/dR2 =    0.211856 (  10.369562 CHEB) (   0.369462 NUM)
+  d3E/dR3 =   -0.732535 ( -33.395744 CHEB)
+
+Spectroscopic constants:
+  we =     894.3 cm**-1 (based on SPLINE)
+  we =    6256.6 cm**-1 (based on CHEB)
+  we =    1181.0 cm**-1 (based on NUM)
+
+Performing Morse fit ...
+Morse-Fit Results:
+ Te(adiabatic)   =   21703.3 cm**-1         =  2.691 eV
+ d2E/dR**2 (Morse)=      0.068782220 
+ d3E/dR**3 (Morse)=     -0.313617885 
+ d4E/dR**4 (Morse)=      1.112195121 
+ E0               =   -108.146334758 Eh  RMS=2.08e-05
+ Re               =   1.57745 Angstroem      =  2.98096 Bohr RMS=1.71e-05)
+ De(Morse)        =   0.40513 eV             =   3267.6 cm**-1 RMS=6.36e-06
+ D0(Morse)        =   0.37354 eV
+ beta             =   1.51986 au          RMS=8.77e-05
+ we               =    509.6 cm**-1
+ wexe             =     19.9 cm**-1
+ Displacement   =    0.0913 Angstroem      =  0.17257 Bohr
+
+
+Timings for individual modules:
+
+Sum of individual times         ...       19.252 sec (=   0.321 min)
+GTO integral calculation        ...        4.714 sec (=   0.079 min)  24.5 %
+SCF iterations                  ...       14.538 sec (=   0.242 min)  75.5 %
+                             ****ORCA TERMINATED NORMALLY****
+TOTAL RUN TIME: 0 days 0 hours 0 minutes 21 seconds 795 msec
