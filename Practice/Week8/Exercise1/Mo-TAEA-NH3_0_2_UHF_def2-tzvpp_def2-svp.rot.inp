@@ -5,7 +5,7 @@
 %moinp "Mo-TAEA-NH3_0_2_UHF_def2-tzvpp_def2-svp.sp.uno"
 
 %scf
-  rotate {54,57,98} end
+  rotate {54,57,90} end
 end
 
 %basis

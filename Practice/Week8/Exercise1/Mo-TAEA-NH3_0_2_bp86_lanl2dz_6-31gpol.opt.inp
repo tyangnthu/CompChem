@@ -1,5 +1,5 @@
 !uks bp86 lanl2dz tightscf opt
-!normalprint uno autoaux
+!normalprint autoaux
 !pal8
 
 %scf
