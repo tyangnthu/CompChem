@@ -1,0 +1,9 @@
+!rks bp86 6-31g* tightscf opt
+!normalprint
+!pal8
+
+%scf
+  maxiter 500
+end
+
+*xyzfile 0 1 tBu3CCl.xyz

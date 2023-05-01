@@ -1,0 +1,13 @@
+!qm/xtb rks ri bp86 6-31g* tightscf opt
+!normalprint
+!pal8
+
+%scf
+  maxiter 500
+end
+
+%qmmm
+  qmatoms { 0 1 2 3 4 } end
+end
+
+*xyzfile 0 1 tBu3CCl.xyz

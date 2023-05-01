@@ -1,0 +1,23 @@
+!qm/xtb rks ri bp86 6-31g* tightscf opt
+!normalprint
+!pal8
+!moread
+
+%moinp "tBu3CCl_0_1_bp86_xtb_6-31gpol_RC-SN1.opt.gbw"
+
+%scf
+  maxiter 500
+end
+
+%qmmm
+  qmatoms { 0 1 2 3 4 } end
+#  charge_total 0
+#  mult_total 1
+#  charge_method chelpg
+end
+
+%geom
+  scan b 0 2 = 1.9, 4.0, 8 end
+end
+
+*xyzfile 0 1 tBu3CCl_0_1_bp86_xtb_6-31gpol_RC-SN1.opt.xyz
