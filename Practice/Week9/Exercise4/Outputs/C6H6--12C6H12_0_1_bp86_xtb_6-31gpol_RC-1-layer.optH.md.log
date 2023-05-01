@@ -1,0 +1,198 @@
+
+Will write log file to "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt.md.log".
+
+Command line:  /home/nickyang69/software/orca_5_0_2_linux_x86-64_shared_openmpi411/orca_md C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt orca
+
+
+    ################################################################
+    ########    ORCA ab initio Molecular Dynamics Module    ########
+    ########          and SANscript Interpreter             ########
+    ########          Martin Brehm, 2016 - 2021             ########
+    ########       https://brehm-research.de/orcamd         ########
+    ################################################################
+
+
+  * Compiled as ORCA module.
+  * Called from ORCA.
+  * Base name: "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt"
+  * Source code version: May 16 2021
+  * Compiled at Dec  6 2021 17:39:09, compiler "Clang 12.0.0 (/home/frankw/CompEnv/src/llvm1200/llvm-project/clang d28af7c654d8db0b68c175db5ce212d74fb5e9bc)", LLVM, CLANG 12.0.0, Linux
+  * Machine: x86_64, int=4b, long=8b, addr=8b, 0xA0B0C0D0=D0,C0,B0,A0.
+  * Executable name: "/home/nickyang69/software/orca_5_0_2_linux_x86-64_shared_openmpi411/orca_md"
+  * Running on cn0935 at Mon May  1 12:06:20 2023 (PID 209296)
+  * Running in /home/u4/nickyang69/Projects/CompChem/CompChem/Practice/Week9/Exercise2.5_C6H6
+
+Initializing SAN engine...
+
+Started parsing input script.
+Reading input file "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt.mdinput" ...
+293 Bytes read.
+Tokenizing input...
+Found 26 tokens in file.
+Handling brackets...
+Handling reference parentheses...
+Handling keywords...
+Handling operators...
+Grouping commas...
+Removing commas...
+Handling variables...
+Found unit "Bohr", converting 0.300000 Bohr to 0.158753 Angstrom...
+Handling functions, iteration 1...
+Handling functions, iteration 2...
+Flattening tree...
+Checking keyword syntax...
+Finished parsing input script.
+
+Initializing MD engine with interface "ORCA" ...
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>   Output of System Information (from ORCA)   >>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+############################################
+   Total Atom Count:             156
+   Total System Mass:         1015.5 a.m.u.
+   Total Basis Dimension:         96
+   Total Electron Number:         42
+   Total Charge:                   0
+   Total Multiplicity:             1
+  ------------------------------------------
+   ReducePrint:                 true
+   Print Mulliken Pop:             1
+   Print Loewdin Pop:              1
+   Print Mayer Pop:                1
+   Print Orbital Energies:         1
+############################################
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<          End of System Information           <<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Initializing regions...
+  Found "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt-active_atoms.tmp" file, reading active region data...
+  Found "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt-qm_atoms.tmp" file, reading QM region data...
+
+Defined regions:
+         all:   156 atoms
+          qm:    12 atoms
+          mm:   144 atoms
+      active:    78 atoms
+    inactive:    78 atoms
+
+
+######################################################
+########        Executing Input Script        ########
+######################################################
+
+Execution verbose level is 2.
+
+
+
+>>>>>> Dump Position, Stride, 1, Filename, "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt_trj.xyz", Replace
+
+Modified writing position trajectory for region "all": Format XYZ, stride 1, filename "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt_trj.xyz", replace.
+
+
+>>>>>> Minimize LBFGS, StepLimit, 0.30, MaxGrad, 4.9615, RMSGrad, 0.9923, Steps, 200
+
+Starting minimization loop with L-BFGS method:
+    Max. Steps:             200
+    L-BFGS History:         20
+    RMS(Grad) Convergence:  0.9923 kJ/mol/Angstrom
+    Max(Grad) Convergence:  4.9615 kJ/mol/Angstrom
+    Step Limit:             0.159 Angstrom
+    Random Displacement:    disabled
+
+
+Dump: Will write Position data of region "all" in XYZ format with stride 1 to "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt_trj.xyz" (replace).
+
+Defined regions:
+         all:   156 atoms
+          qm:    12 atoms
+          mm:   144 atoms
+      active:    78 atoms
+    inactive:    78 atoms
+
+Will write restart file to "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt.mdrestart" after each step.
+Will write energy statistics to "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt-minimize-ener.csv" after each step.
+
+
+The system contains 234 active degrees of freedom (78 active atoms * 3).
+
+This is a 234-dimensional optimization problem.
+
+Allocating 136.27 KiB of memory for L-BFGS working space...
+
+
+
+            |  t_SCF | t_Grad |     Temp |           E_Pot |      Delta E |    RMS(Grad) |    Max(Grad) |  Max(Step)
+       Step |    [s] |    [s] |      [K] |       [Hartree] |    [Hartree] | [kJ/(mol*A)] | [kJ/(mol*A)] | [Angstrom]
+------------|--------|--------|----------|-----------------|--------------|--------------|--------------|--------------
+          1     23.3      6.5                -422.89199220                                                          
+          2     13.3      7.2                -422.89211173    -0.00011953        32.2870        90.5046     0.000350
+          3     12.5      7.3                -422.89692261    -0.00481089         4.2449         6.8502     0.024666
+          4     12.4      6.9                -422.89708463    -0.00016202         3.6251         5.7242     0.002412
+          5     11.4      6.2                -422.89717904    -0.00009441         7.4892        29.5186     0.009647
+          6     12.3      6.9                -422.89724709    -0.00006805         5.2239        19.0491     0.003833
+          7     12.0      6.8                -422.89742396    -0.00017687         2.4998         4.8410     0.004713
+          8     11.4      6.6                -422.89745184    -0.00002788         1.9464         4.7070     0.002736
+          9     13.5      6.3                -422.89747554    -0.00002370         1.0187         1.6911     0.001979
+         10     12.0      6.3                -422.89747602    -0.00000048         0.6809         1.1852     0.000406
+
+
+The minimization has converged.
+
+
+>>> Timing data >>>
+    Minimization loop was running for 201.327 seconds ( 0:03:21.327 h:m:s).
+    Performance: 20.133 seconds/step.
+    Time spent within the MD module (overhead): 0.032 seconds (0.0159 % of total time).
+<<< Timing data <<<
+
+
+Finished minimization loop.
+
+
+
+>>>>>> Dump Position, Format, XYZ, Stride, 0, Filename, "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt.xyz", Replace
+
+Writing a single position snapshot for region "all": Format XYZ, filename "C6H6--12C6H12_0_1_bp86_xtb_6-31gpol_RC-1-layer.copt.xyz", replace.
+
+
+###############################################################
+########        Finished Executing Input Script        ########
+###############################################################
+
+
+    3 function calls, 0 operator calls, 27 evaluated expressions.
+
+
+Timings for individual modules during the MD run:
+
+GTO integral calculation        ...       31.181 sec (=   0.520 min)  14.9 %
+SCF iterations                  ...       90.949 sec (=   1.516 min)  43.4 %
+SCF Gradient evaluation         ...       66.774 sec (=   1.113 min)  31.9 %
+XTB module                      ...       10.262 sec (=   0.171 min)   4.9 %
+ONIOM_Small energy and gradient ...        1.413 sec (=   0.024 min)   0.7 %
+ONIOM_Large energy and gradient ...        8.767 sec (=   0.146 min)   4.2 %
+Self time inside of MD module   ...        8.963 sec (=   0.149 min)   4.1 %
+
+Sum of individual times         ...      218.309 sec (=   3.638 min)
+
+Total wall time of MD module    ...      210.256 sec (=   3.504 min)
+             --> "dark time"    ...       -8.053 sec (=  -0.134 min)  -3.8 %
+
+( The "dark time" is spent in the ORCA-internal routines for energy and gradient calculation,
+  but not inside of the sub-programs which do so. It contains operating system overhead for
+  spawning new processes in each MD step and some file IO time. )
+
+
+
+    #########################################################
+    ####    ORCA ab initio Molecular Dynamics leaving    ####
+    ####           Martin Brehm, 2016 - 2021             ####
+    ####        https://brehm-research.de/orcamd         ####
+    #########################################################
+
