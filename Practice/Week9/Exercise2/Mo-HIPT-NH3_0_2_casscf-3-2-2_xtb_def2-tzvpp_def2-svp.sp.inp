@@ -1,0 +1,31 @@
+!qm/xtb uhf def2-svp tightscf 
+!rijcosx autoaux
+!normalprint
+!pal8
+!moread
+
+%moinp "Mo-HIPT-NH3_0_2_bp86_xtb_lanl2dz_6-31gpol.opt.gbw"
+
+%scf
+  maxiter 500
+end
+
+%basis
+  newgto Mo "def2-tzvpp" end
+end
+
+%casscf
+  nel 3
+  norb 2
+  nroots 2
+  rel
+    gtensor true
+    dosoc true
+  end
+end
+
+%qmmm
+  qmatoms { 0 1 2 3 4 5 6 7 8 } end
+end
+
+*xyzfile 0 2 Mo-HIPT-NH3_0_2_bp86_xtb_lanl2dz_6-31gpol.opt.xyz

@@ -1,0 +1,144 @@
+-------------------------------------------------------------
+----------------------- !PROPERTIES! ------------------------
+-------------------------------------------------------------
+# -----------------------------------------------------------
+$ PAL_Flags
+   description: The PAL Flags
+   geom. index: 1
+   prop. index: 1
+        Diskflag:     2
+# -----------------------------------------------------------
+$ CASSCF_Energies
+   description: The CASSCF energies
+   geom. index: 1
+   prop. index: 1
+       Number of Multiplicities          : 1 
+       FINAL CASSCF Energy               :   -346.5644008856 
+ RESULTS FOR MULTIPLICITY                 2  AND IRREP  0
+       NUMBER OF ROOTS                    2 
+ROOT   0 Energy   -346.5658366644
+ROOT   1 Energy   -346.5629651068
+# -----------------------------------------------------------
+$ CASSCF_ABS
+   description: The CASSCF absorption spectrum 
+   geom. index: 1
+   prop. index: 1
+        Number of roots:  1
+        The CASSCF Absorption Spectrum :
+                  0          1          2          3          4          5    
+      0     630.234044 15867.121265   0.000006   0.020749   0.119486   0.065061
+                  6    
+      0      -0.047317
+        Info about the excitations:
+                  0          1          2          3          4    
+      0         0          0          1          0          2     
+# -----------------------------------------------------------
+$ CASSCF_CD
+   description: The CASSCF CD spectrum 
+   geom. index: 1
+   prop. index: 1
+        Number of roots:  1
+        The CASSCF CD Spectrum:
+                  0          1          2          3          4          5    
+      0     630.234044 15867.121265  -0.628380   0.091626   0.072035   0.402021
+        Info about the excitations:
+                  0          1          2          3          4    
+      0         0          0          0          0          0     
+# -----------------------------------------------------------
+$ CASSCF_Dipole
+   description: The CASSCF dipole moments 
+   geom. index: 1
+   prop. index: 1
+        Number of states:  1
+        The CASSCF Dipole moments :
+                  0          1          2          3    
+      0      -0.710921  -0.278886  -2.788493   2.891173
+        Info about the states:
+                  0          1    
+      0         0          0     
+# -----------------------------------------------------------
+$ CASSCF_GTensor
+   description: Electronic g tensor 
+   geom. index: 1
+   prop. index: 1
+ Method: 1 CASSCF 
+ Type: 0 UNKNOWN 
+ Spin multiplicity: 0 
+ Kramers doublet: 0 
+ Raw G tensor : 
+                  0          1          2    
+      0       0.000000   0.000000   0.000000
+      1       0.000000   0.000000   0.000000
+      2       0.000000   0.000000   0.000000
+ G Eigenvalues: 
+                  0          1          2    
+      0       0.000000   0.000000   0.000000
+ G Eigenvectors: 
+                  0          1          2    
+      0       0.000000   0.000000   0.000000
+      1       0.000000   0.000000   0.000000
+      2       0.000000   0.000000   0.000000
+# -----------------------------------------------------------
+$ CASSCF_GTensor
+   description: Electronic g tensor 
+   geom. index: 1
+   prop. index: 2
+ Method: 1 CASSCF 
+ Type: 1 HEFF 
+ Spin multiplicity: 2 
+ Kramers doublet: 0 
+ Raw G tensor : 
+                  0          1          2    
+      0       2.003971   0.002303   0.012946
+      1       0.002317   2.002833   0.010174
+      2       0.012932   0.010101   2.057804
+ G Eigenvalues: 
+                  0          1          2    
+      0       0.000000   0.000000   0.000000
+ G Eigenvectors: 
+                  0          1          2    
+      0       0.000000   0.000000   0.000000
+      1       0.000000   0.000000   0.000000
+      2       0.000000   0.000000   0.000000
+# -----------------------------------------------------------
+$ Calculation_Info
+   description: Details of the calculation
+   geom. index: 1
+   prop. index: 1
+     Multiplicity:                          2
+     Charge:                                0
+     number of atoms:                       282
+     number of electrons:                   0
+     number of frozen core electrons:       1
+     number of correlated electrons:        0
+     number of basis functions:             186
+     number of aux C basis functions:       1111
+     number of aux J basis functions:       1111
+     number of aux JK basis functions:      1111
+     number of aux CABS basis functions:    0
+     Total Energy                           -667.671227
+# -------------------------------------------------------------
+----------------------- !GEOMETRIES! ------------------------
+# -------------------------------------------------------------
+------------------------ !GEOMETRY! -------------------------
+    Number of atoms:    18 
+    Geometry Index:     1 
+    Coordinates:
+               0 Mo     7.140023529627   15.680832862659   13.524685624065
+               1 N      5.269191477427   15.497441427775   14.232985482248
+               2 N      8.339520302132   14.134220536735   13.829691331715
+               3 N      8.018434824426   17.472348305117   13.329197892797
+               4 N      7.584798520448   16.021034218967   15.576598158313
+               5 N      6.657662246855   15.292886839353   11.316874909291
+               6 H      7.146574675547   14.462554166787   10.950032159129
+               7 H      6.943092693177   16.109447342117   10.755866829945
+               8 H      5.644386398087   15.157179674219   11.185202215962
+               9 H      5.183039490478   16.010891867264   15.114681625748
+              10 H      4.428699061092   15.099708557685   13.808120513514
+              11 H      8.425567397319   13.874864880023   14.830170881552
+              12 H      8.796648340076   13.518606588718   13.146474338027
+              13 H      8.619589612319   17.687008191708   14.129478572595
+              14 H      7.974759790777   18.123967615505   12.543628781393
+              15 H      6.722599438458   15.873837889732   16.110402442925
+              16 H      8.317714047595   15.357413027326   15.884991545574
+              17 H      7.916428616601   16.985866626677   15.670604055118
