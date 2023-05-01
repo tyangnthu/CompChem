@@ -1,0 +1,24 @@
+!qm/xtb uks bp86 ri lanl2dz tightscf opt
+!normalprint
+!pal8
+
+%scf
+  maxiter 500
+end
+
+%qmmm
+  qmatoms { 0 1 2 3 4 5 6 7 8 } end
+end
+
+%geom
+  constraints
+    { c 0 c }
+    { c 1 c }
+    { c 2 c }
+    { c 3 c }
+    { c 4 c }
+    { c 5 c }
+  end
+end
+
+*xyzfile 0 2 Mo-HIPT-NH3.xyz
