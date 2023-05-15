@@ -7,11 +7,11 @@ tinit       = 0
 nsteps      = 200000    ; 1000 ps = 0.4 ns
 nstcomm     = 10
 ; Output parameters
-nstxout     = 50000      ; every 10 ps
-nstvout     = 50000 
-nstfout     = 50000
-nstxtcout   = 50000       ; every 1 ps
-nstenergy   = 50000
+nstxout     = 500      ; every 10 ps
+nstvout     = 500 
+nstfout     = 500
+nstxtcout   = 500       ; every 1 ps
+nstenergy   = 500
 ; Bond parameters
 constraint_algorithm    = lincs
 constraints             = h-bonds
