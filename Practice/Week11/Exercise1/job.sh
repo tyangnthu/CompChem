@@ -15,7 +15,7 @@ MDP=$FREE_ENERGY
 echo ".mdp files are stored in $MDP"
 
 # Change to the location of your GROMACS-2018 installation
-GMX=/home/richardlin31/software/gromacs/2022.2/bin
+GMX=$HOME/software/gromacs/2022.2/bin
 
 ###  NVT  ###
 $GMX/gmx grompp -f nvt.mdp -c em.gro -p topol.top -r em.gro -o nvt.tpr 
