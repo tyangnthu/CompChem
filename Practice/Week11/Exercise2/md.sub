@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --nodes=1 
+#SBATCH --cpus-per-task=4 
+#SBATCH --ntasks-per-node=1
+#SBATCH --gres=gpu:1
+#SBATCH --account=MST111483
+#SBATCH -p gp1d
+#SBATCH -t 24:00:00
+
+export GMX_ENABLE_DIRECT_GPU_COMM=true
+gpu_option='-ntmpi 1 -ntomp 4 -update gpu -nstlist 200'
+
+. activate.sh
+gmx mdrun -deffnm md_0_10 $gpu_option

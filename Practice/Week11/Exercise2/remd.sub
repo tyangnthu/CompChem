@@ -1,0 +1,74 @@
+#!/bin/bash
+#SBATCH --nodes=1 
+#SBATCH --cpus-per-task=4 
+#SBATCH --ntasks-per-node=4
+#SBATCH --gres=gpu:4
+#SBATCH --account=MST111483
+#SBATCH -p gp1d
+#SBATCH -t 24:00:00
+
+export GMX_ENABLE_DIRECT_GPU_COMM=true
+
+. ~/scripts/gromacs/activate.sh
+
+# Set some environment variables 
+REPLICA_EXCHANGE=$(pwd)
+echo "Replica exchange home directory set to $REPLICA_EXCHANGE"
+MDP=$REPLICA_EXCHANGE
+echo ".mdp files are stored in $MDP"
+workspace=$(pwd)
+
+# Change to the location of your GROMACS-2018 installation
+GMX=/home/nickyang69/software/gromacs/2022.2/bin
+GMX_MPI=/home/nickyang69/software/gromacs/2022.2-mpi/bin
+
+nvt () {
+  echo "Starting constant volume equilibration for RE$1..."
+
+  $GMX/gmx grompp -n $REPLICA_EXCHANGE/index.ndx -r $REPLICA_EXCHANGE/md_0_10.gro     -c $REPLICA_EXCHANGE/md_0_10.gro -f $MDP/nvt_$1.mdp -p $REPLICA_EXCHANGE/topol.top -o nvt$1.tpr
+
+  $GMX/gmx mdrun -deffnm nvt$1 -ntomp 4 -ntmpi 1 -update gpu
+
+  echo "Constant volume equilibration complete."
+
+  sleep 10
+}
+
+npt () {
+  echo "Starting constant pressure equilibration for RE$1..."
+
+  $GMX/gmx grompp -n $REPLICA_EXCHANGE/index.ndx -r nvt$1.gro -f $MDP/npt_$1.mdp     -c nvt$1.gro -p $REPLICA_EXCHANGE/topol.top -t nvt$1.cpt -o npt$1.tpr
+
+  $GMX/gmx mdrun -deffnm npt$1 -ntomp 4 -ntmpi 1 -update gpu
+
+  echo "Constant pressure equilibration complete."
+
+  sleep 10
+}
+
+remd () {
+  $GMX/gmx grompp -n $REPLICA_EXCHANGE/index.ndx -f $REPLICA_EXCHANGE/remd_$1.mdp -c npt$1.gro       -r npt$1.gro -p $REPLICA_EXCHANGE/topol.top -t npt$1.cpt -o remd.tpr
+    echo "REMD tpr generation complete."
+
+  sleep 10
+}
+
+for (( i=0; i<4; i++ ))
+do
+  (
+    RE=$i
+    mkdir $workspace/RE$RE
+    cd $workspace/RE$RE
+    nvt $RE
+    npt $RE
+    remd $RE
+  ) &
+done
+
+wait
+
+cd $workspace
+
+. ~/scripts/gromacs/activate_mpi.sh
+mpirun -np 4 $GMX_MPI/gmx_mpi mdrun -s remd -multidir $(ls -d RE*/ | sort -n | xargs echo)   -ntomp 4 -update gpu -replex 1000 -nstlist 200
+
