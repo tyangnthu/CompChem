@@ -10,7 +10,8 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 import glob
-
+sys.path.append('../Exercise1')
+from smi_inform import smi_inform
 
 class PropNN(nn.Module):
 
@@ -46,7 +47,7 @@ class PropNN(nn.Module):
         return regression_loss#,classifaction_loss
     
 if __name__ == '__main__':
-    for loadfile in glob.glob(os.path.join(os.path.expanduser('~'),'CompChem/Practice/Week12/data/.pkl')):
+    for loadfile in glob.glob(os.path.join(os.path.expanduser('~'),'CompChem/Practice/Week12/data/*.pkl')):
         files = pickle.load(open(loadfile,'rb'))
         hidden_size = os.path.basename(loadfile).split('.')[0].split('-')[-1]
         test_size = 0.2

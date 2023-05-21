@@ -9,6 +9,6 @@
 #SBATCH --partition=gp4d
 source ~/.bashrc
 . ~/anaconda3/etc/profile.d/conda.sh
-conda acivate CompChem
+conda activate CompChem
 
-python /home/scorej41075/CompChempractice/Excercise2/train.py
+python ~/CompChem/Practice/Week12/Exercise2/train.py
