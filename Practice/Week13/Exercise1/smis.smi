@@ -1,0 +1,6 @@
+O=C(OC)CCC([H])=O
+O=C1CC[C@@]([C@@]2([H])[C@](OC(C2)=O)([H])CC=C)([H])N1
+O=C1CC[C@@]([C@@]2([H])[C@](OC(C2)=O)([H])CCCO)([H])N1
+O=C1CC[C@@]([C@@]2([H])[C@](OC(C2)=O)([H])CCCBr)([H])N1
+O=C1CC[C@@]2([H])N1CCC[C@]([C@@]2([H])C3)([H])OC3=O
+O=C1CC[C@@]2([H])N1CCC[C@]([C@@]2([H])[C@H]3C)([H])OC3=O
