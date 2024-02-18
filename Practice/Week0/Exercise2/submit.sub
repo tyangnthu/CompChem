@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -l select=1:ncpus=1:mem=2gb
+#PBS -l pmem=2gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+#PBS -o compchem.out
+#PBS -N compchem
+#PBS -q serial
+#PBS -P ACD111182
+
+wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+chmod +x Anaconda3-2022.10-Linux-x86_64.sh
+./Anaconda3-2022.10-Linux-x86_64.sh << EOF
+
+yes
+
+yes
+EOF
+. ~/anaconda3/etc/profile.d/conda.sh
+conda create -n compchem python=3.6 -y
+conda activate compchem
+conda install jupyter -y # done
+conda install pandas -y # done
+conda install scipy -y # done
+conda install numpy -y # done
+conda install matplotlib -y # done
+conda install plotly -y
+conda install -c conda-forge openbabel -y # done
+conda install -c rdkit rdkit -y #d one
+pip install pyscf[all]
