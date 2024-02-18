@@ -26,3 +26,6 @@ conda install matplotlib -y # done
 conda install plotly -y
 conda install -c conda-forge openbabel -y # done
 conda install -c rdkit rdkit -y #d one
+
+echo 'source ~/anaconda3/etc/profile.d/conda.sh' >> ~/.bashrc
+echo 'conda activate compchem' >> ~/.bashrc
