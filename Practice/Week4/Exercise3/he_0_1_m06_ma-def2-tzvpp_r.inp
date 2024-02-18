@@ -1,9 +1,0 @@
-!uks m06 ma-def2-tzvpp tightscf
-
-%scf
-  maxiter 250
-end
-
-*xyz 0 1
-he 0 0 0
-*
