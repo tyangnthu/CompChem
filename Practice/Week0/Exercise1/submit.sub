@@ -1,0 +1,28 @@
+#!/bin/sh
+#SBATCH -A MST111483				# Account name/project number
+#SBATCH -J submit			# Job name
+#SBATCH -p ct56			# Partiotion name
+#SBATCH -n 1 					# Number of MPI tasks (i.e. processes)
+#SBATCH -N 1					# Maximum number of nodes to be allocated
+#SBATCH -o %j.out				# Path to the standard output file
+#SBATCH -e %j.err				# Path to the standard error ouput file
+
+wget https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh
+chmod +x Anaconda3-2023.09-0-Linux-x86_64.sh
+./Anaconda3-2023.09-0-Linux-x86_64.sh << EOF
+
+yes
+
+yes
+EOF
+. ~/anaconda3/etc/profile.d/conda.sh
+conda create -n compchem python=3.8 -y
+conda activate compchem
+conda install jupyter -y # done
+conda install pandas -y # done
+conda install scipy -y # done
+conda install numpy -y # done
+conda install matplotlib -y # done
+conda install plotly -y
+conda install -c conda-forge openbabel -y # done
+conda install -c rdkit rdkit -y #d one
